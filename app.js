@@ -1,5 +1,6 @@
 const express = require("express");
 const database = require("./database/database")
+require("dotenv").config()
 
 const authenticationRoute = require("./routes/authentication")
 const postsRoute = require("./routes/posts")
@@ -19,9 +20,11 @@ app.use((req, res) => {
 })
 
 
-const databaseUri = "mongodb://localhost:27017"
+const databaseUri = "mongodb://localhost:27017/social_network"
 
-const server = app.listen(app.get("port"), async function () {
+const port = process.env.PORT || 3000
+
+const server = app.listen(port, async function () {
   await database(databaseUri)
     .then(() => {
       console.log("Express server listening on port " + server.address().port);

@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt")
 const User = require("../models/user")
 const UserProfile = require("../models/userProfile")
 
+require("dotenv").config()
+
 const signup = async (req, res) => {
     const { username, email, password, phone, fullName } = req.body
     if (!username || !email || !password || !phone)
@@ -22,7 +24,6 @@ const signup = async (req, res) => {
                 username,
                 fullName,
                 friends: [],
-                likes: [],
                 options: {
                     posts: {
                         visibility: "public"
@@ -51,17 +52,16 @@ const login = async (req, res) => {
     let user = null;
 
     if (req.body.hasOwnProperty('email')) //login with email
-        user = await User.findOne({ email: req.body.get("email") })
+        user = await User.findOne({ email: req.body.email })
     if (req.body.hasOwnProperty('username')) //login with email
-        user = await User.findOne({ email: req.body.get("username") })
+        user = await User.findOne({ username: req.body.username })
 
     if (user == null) return res.json({ error: "user not found"})
 
     const validPassword = await bcrypt.compare(password, user.password)
 
     if (validPassword) {
-        const username = user.username
-        req.user = { username }
+        req.user = user.username
         generateToken(req, res)
     }
     else {
@@ -76,7 +76,19 @@ const refreshToken = async (req, res) => {
 
 
 const generateToken = (req, res) => {
-    return true
+    const accessToken =  jwt.sign(
+        { user: req.user } ,
+        process.env.ACCESS_SECRET,
+        {expiresIn: "2d"}
+    )
+
+    const refreshToken = jwt.sign(
+        {user: req.user},
+        process.env.REFRESH_SECRET,
+        { expiresIn: "20d" }
+    )
+
+    res.send({ access: accessToken, refresh: refreshToken})
 }
 
 

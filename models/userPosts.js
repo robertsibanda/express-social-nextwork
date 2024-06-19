@@ -6,6 +6,10 @@ const UserPost = mongoose.Schema({
         required: true
     },
 
+    date: {
+
+    },
+
     content: {
         type: String,
         required: true
@@ -23,15 +27,10 @@ const UserPost = mongoose.Schema({
         default: 0
     },
 
-    comments: {
-        // comment : { person, content, time, likes }
-        type: [],
-        required: true
-    },
-
+    comments: [], // comment : { user, content, likes, dislikes}
     options: {
-        visibility: "friends",
-        deleted_comments : []
+        // "visibility": "friends",
+        // deleted_comments : []
     }
 
 })

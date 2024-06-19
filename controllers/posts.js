@@ -1,4 +1,7 @@
+const UserPosts = require("../models/userPosts")
+
 const createPost = async (req, res) => {
+
 }
 
 

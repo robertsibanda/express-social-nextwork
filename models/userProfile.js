@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const {mongo} = require("mongoose");
 
 const userProfile = mongoose.Schema({
     username: {
@@ -20,6 +21,8 @@ const userProfile = mongoose.Schema({
         required: true
     },
 
+    blocked: [],
+
     options: {
         // user preferences
         posts : {
@@ -27,8 +30,9 @@ const userProfile = mongoose.Schema({
         },
 
         profile: {
-            visibility : "public",
 
         }
     }
 })
+
+module.exports = mongoose.model("user_profiles", userProfile)
