@@ -1,13 +1,13 @@
 const router = require("express").Router()
-const { addFriends, deleteFriends, respondRequest,getAllFriends} = require("../controllers/friends")
+const { addFriends, deleteFriend, respondRequest,getAllFriends} = require("../controllers/friends")
 const authMiddleware = require("../middleware/authentication")
 
-router.route("/friends")
+router.route("/")
     .get(authMiddleware, getAllFriends)
-    .post(authMiddleware, addFriends)
 
-router.route("/friends/:id")
+router.route("/:user")
+    .post(authMiddleware, addFriends)
     .put(authMiddleware, respondRequest)
-    .delete(authMiddleware, deleteFriends)
+    .delete(authMiddleware, deleteFriend)
 
 module.exports = router

@@ -13,7 +13,9 @@ const userProfile = mongoose.Schema({
     },
 
     friends: {
-        type: Array,
+        requests : [],
+        requested: [],
+        accepted: []
     },
 
     likes: {

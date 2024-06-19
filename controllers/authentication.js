@@ -23,7 +23,7 @@ const signup = async (req, res) => {
             await UserProfile.create({
                 username,
                 fullName,
-                friends: [],
+                friends: {},
                 options: {
                     posts: {
                         visibility: "public"

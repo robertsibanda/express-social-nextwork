@@ -34,11 +34,13 @@ const viewProfile = async (req, res) => {
         .then(profile => {
             const profileOptions  = profile.options.profile
 
-            if (profile == null || undefined)
+            if (profile == null || undefined) {
                 return res.json({ error : "profile not found" })
 
+            }
             else if (profileOptions.visibility === "private") {
-                if (profile.friends.includes(req.user)) {  // list(profile.friends).indexOf(req.user)
+                if (profile.friends.includes(req.user)) {
+                    // list(profile.friends).indexOf(req.user) !== -1
                     return res.json({ profile: getProfile(profile)})
                 }
                 return res.json({ error : "profile is private" })
@@ -55,7 +57,9 @@ const blockProfile = async (req, res) => {
     const username = req.params.username
 
     const { block } = req.body
-    if (!block) return res.json({ error : "missing request data"})
+    if (block == null || undefined){
+         return res.json({ error : "missing request data"})
+    }
 
     if (block === true) {
         let currentUser = await UserProfile.findOne({ username: req.user})
